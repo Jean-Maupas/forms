@@ -1,14 +1,33 @@
-<script>
-   import { actions } from '$lib/actions';
+<script lang="ts">
+   import { actions } from '../routes/api/+server';
  
    let { data } = $props();
   
     let formData = {};
   
+    /**
+     * @param {{ request: any; }} event
+     */
     function handleSubmit(event) {
       actions.test4({ request: event.request, formData });
     }
-  </script>
+
+
+	async function getData() {
+		const url = "https://example.org/products.json";
+		try {
+			const response = await fetch(url);
+			if (!response.ok) {
+			throw new Error(`Response status: ${response.status}`);
+			}
+
+			const json = await response.json();
+			console.log(json);
+		} catch (error) {
+			console.error(error?.message);
+		}
+	}
+</script>
 
   
 <div class="centered">
@@ -23,7 +42,7 @@
         <button formaction="?/test2">test2</button>
     </form>
 
-	<form method="POST"  action="?/test2">
+	<form method="POST" action="?/test2">
 		<label>
 			add a todo:
 			<input
@@ -44,7 +63,25 @@
 
   </form>
   
- 
+ <!-- Form which will send a POST request to the current URL -->
+<form method="post" action="?/test5">
+	<label>
+	  Name:
+	  <input name="submitted-name" autocomplete="name" />
+	</label>
+	<button>Save</button>
+  </form>
+  
+  <!-- Form with fieldset, legend, and label -->
+  <form method="post"  action="?/test6">
+	<fieldset>
+	  <legend>Do you agree to the terms?</legend>
+	  <label><input type="radio" name="radio" value="yes" /> Yes</label>
+	  <label><input type="radio" name="radio" value="no" /> No</label>
+	</fieldset>
+  </form>
+
+
 	<ul class="todos">
         {#if data && data.todos}
 		{#each data.todos as todo (todo.id)}
