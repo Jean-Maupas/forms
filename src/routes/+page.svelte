@@ -2,29 +2,33 @@
     import Form from "$lib/Form.svelte";
     import { onMount } from 'svelte';
 
-  let data: { items: any; };
+  let data: { items: any[] } ;
 
   onMount(async () => {
-    try {
-        data = await fetch('/api/test4').then(response => response.json());
-        console.log(data);
-    } catch (err) {
-        //$inspect(err)
-        console.log(data);
-    }
+    // try {
+    //     data = await fetch('/api').then(response => response.json());
+    //     console.log(data);
+    // } catch (err) {
+    //     //$inspect(err)
+    //     console.log(data);
+    // }
   });
 
   let promise: Promise<any>;
   const handleClick = async () => {
 		data = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json').then((x) => x.json());
-        promise = fetch('https://api.coindesk.com/v1/bpi/currentprice.json').then((x) => x.json());
+    promise = fetch('https://api.coindesk.com/v1/bpi/currentprice.json').then((x) => x.json());
 	};
+
+
 </script>
+
+
 
 
 <h1>Welcome to SvelteKit</h1>
 
-<Form data/>
+<Form />
 
 <!-- Render data -->
 {#if data}
